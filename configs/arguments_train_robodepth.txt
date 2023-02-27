@@ -1,0 +1,27 @@
+--mode train
+--model_name pixelformer_robodepth
+--encoder large07
+--pretrain /hdd/hoa/model_zoo/SwinTransformer/swin_large_patch4_window7_224_22k.pth
+--dataset nyu
+--filenames_file data_splits/nyu_train.txt
+--data_path /hdd/hoa/nyu
+--num_epochs 20
+--learning_rate 2e-5
+--weight_decay 1e-2
+--adam_eps 1e-3
+--num_threads 1
+--input_height 480
+--input_width 640
+--max_depth 10
+--min_depth 1e-3
+--do_random_rotate
+--degree 2.5
+--log_directory /hdd/hoa/models/
+--multiprocessing_distributed
+--dist_url tcp://127.0.0.2:2347
+
+--log_freq 100
+--do_online_eval
+--eval_freq 500
+--filenames_file_eval data_splits/nyu_test.txt
+--eigen_crop
