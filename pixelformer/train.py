@@ -145,7 +145,7 @@ def online_eval(model, dataloader_eval, gpu, ngpus, global_step, post_process=Fa
         disp_image_path = "{}/{}".format(val_dir_path, os.path.basename(eval_sample_batched["name"][0]))
         cv2.imwrite(disp_image_path, disp_image_flat)
 
-        valid_mask = np.logical_and(gt_depth > args.min_depth_eval, gt_depth < args.max_depth_eval)
+        valid_mask = np.logical_and(gt_depth > args.min_depth, gt_depth < args.max_depth)
 
         if args.garg_crop or args.eigen_crop:
             gt_height, gt_width = gt_depth.shape

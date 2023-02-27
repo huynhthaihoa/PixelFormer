@@ -215,10 +215,10 @@ class DataLoadPreprocess(Dataset):
             if cut_option == "cutflip":
                 return self.cut_flip(image, depth)
             
-            a = random.uniform(0,1)
-            b = random.uniform(0,1)
-            c = random.uniform(0,1)
-            d = random.uniform(0,1)
+            a = random.uniform(0, 1)
+            b = random.uniform(0, 1)
+            c = random.uniform(0, 1)
+            d = random.uniform(0, 1)
             
             l = int(a * self.args.input_width)
             u = int(b * self.args.input_height)
