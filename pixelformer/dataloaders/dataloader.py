@@ -211,9 +211,11 @@ class DataLoadPreprocess(Dataset):
         return image_aug
     
     def augment_cut(self, image, depth, cut_option):
+        
+        if cut_option == "cutflip":
+            return self.cut_flip(image, depth)
+
         if cut_option != "normal":
-            if cut_option == "cutflip":
-                return self.cut_flip(image, depth)
             
             a = random.uniform(0, 1)
             b = random.uniform(0, 1)
@@ -226,7 +228,7 @@ class DataLoadPreprocess(Dataset):
             h = int(max(((self.args.input_height - u) * d * self.args.cut_prop), 1))
             
             if cut_option == "cutdepth":
-                depth_copy = depth.copy()
+                depth_copy = np.repeat(depth, 3, axis=2)
                 M = np.ones(image.shape)
                 M[l : l + h, u : u + w, :] = 0
                 image = M * image + (1 - M) * depth_copy
