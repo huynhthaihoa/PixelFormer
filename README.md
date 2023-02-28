@@ -1,5 +1,5 @@
 ## PixelFormer: Attention Attention Everywhere: Monocular Depth Prediction with Skip Attention
-**Disclaimer:** This is NOT the official implementation of PixelFormer. To access the official one with full information, please click [here](https://github.com/ashutosh1807/PixelFormer).
+**Disclaimer:** This is NOT the official implementation of PixelFormer. Please refer to [the official implementation](https://github.com/ashutosh1807/PixelFormer) regard to further, more-detailed information.
 
 **[Paper](https://arxiv.org/pdf/2210.09071)** <br />
 
