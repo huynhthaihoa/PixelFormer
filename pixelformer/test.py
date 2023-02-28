@@ -135,11 +135,15 @@ def test(params):
                 pred_depths.append(pred_depth)
     
     if args.dataset == "kitti":
-        output_path = os.path.join(save_depth_path, "pred.npz")
-        np.savez_compressed(output_path, pred=pred_depths)
+        npz_path = os.path.join(save_depth_path, "pred.npz")
+        zip_path = os.path.join(save_depth_path, "submission.zip")
+        np.savez_compressed(npz_path, pred=pred_depths)
     elif args.dataset == "nyu":
-        output_path = os.path.join(save_depth_path, "disp.npz")
-        np.savez_compressed(output_path, data=pred_depths)
+        npz_path = os.path.join(save_depth_path, "disp.npz")
+        zip_path = os.path.join(save_depth_path, "disp.zip")
+        np.savez_compressed(npz_path, data=pred_depths)
+    command = 'zip {} {}'.format(zip_path, npz_path)
+    os.system(command)
     
     elapsed_time = time.time() - start_time
     print('Elapesed time: %s' % str(elapsed_time))
