@@ -1,0 +1,5 @@
+--model_name pixelformer_robodepth
+--filenames_file data_splits/robodepth_eval.txt
+--checkpoint_path /hdd/hoa/models/pixelformer_robodepth/model-5000-best_abs_rel_0.10608.ckpt
+--save_depth_path /hdd/hoa/test/pixelformer_robodepth
+--data_path /hdd/hoa
