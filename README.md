@@ -3,7 +3,7 @@
 [![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/attention-attention-everywhere-monocular/monocular-depth-estimation-on-kitti-eigen)](https://paperswithcode.com/sota/monocular-depth-estimation-on-kitti-eigen?p=attention-attention-everywhere-monocular)
 
 ## PixelFormer: Attention Attention Everywhere: Monocular Depth Prediction with Skip Attention
-This is the official PyTorch implementation for WACV 2023 paper 'Attention Attention Everywhere: Monocular Depth Prediction with Skip Attention'.
+**Disclaimer:** This is NOT the official implementation of PixelFormer. To access the official one, please click [here](https://github.com/ashutosh1807/PixelFormer).
 
 **[Paper](https://arxiv.org/pdf/2210.09071)** <br />
 
