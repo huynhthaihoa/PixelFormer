@@ -1,7 +1,3 @@
-[![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/attention-attention-everywhere-monocular/monocular-depth-estimation-on-nyu-depth-v2)](https://paperswithcode.com/sota/monocular-depth-estimation-on-nyu-depth-v2?p=attention-attention-everywhere-monocular)
-
-[![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/attention-attention-everywhere-monocular/monocular-depth-estimation-on-kitti-eigen)](https://paperswithcode.com/sota/monocular-depth-estimation-on-kitti-eigen?p=attention-attention-everywhere-monocular)
-
 ## PixelFormer: Attention Attention Everywhere: Monocular Depth Prediction with Skip Attention
 **Disclaimer:** This is NOT the official implementation of PixelFormer. To access the official one, please click [here](https://github.com/ashutosh1807/PixelFormer).
 
