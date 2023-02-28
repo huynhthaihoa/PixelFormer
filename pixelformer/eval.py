@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+import cv2
 import torch
 import torch.backends.cudnn as cudnn
 
@@ -7,7 +8,7 @@ import argparse
 import numpy as np
 from tqdm import tqdm
 
-from utils import post_process_depth, flip_lr, compute_errors
+from utils import depth_value_to_depth_image, post_process_depth, flip_lr, compute_errors
 from networks.PixelFormer import PixelFormer
 
 
@@ -30,6 +31,7 @@ parser.add_argument('--dataset',                   type=str,   help='dataset to 
 parser.add_argument('--input_height',              type=int,   help='input height', default=480)
 parser.add_argument('--input_width',               type=int,   help='input width',  default=640)
 parser.add_argument('--max_depth',                 type=float, help='maximum depth in estimation', default=10)
+parser.add_argument('--data_path',                 type=str,   help='path to the data', default='')
 
 # Preprocessing
 parser.add_argument('--do_random_rotate',                      help='if set, will perform random rotation for augmentation', action='store_true')
@@ -46,6 +48,8 @@ parser.add_argument('--max_depth_eval',            type=float, help='maximum dep
 parser.add_argument('--eigen_crop',                            help='if set, crops according to Eigen NIPS14', action='store_true')
 parser.add_argument('--garg_crop',                             help='if set, crops according to Garg  ECCV16', action='store_true')
 
+# Log and save
+parser.add_argument('--log_directory',             type=str,   help='directory to save checkpoints and summaries', default='')
 
 if sys.argv.__len__() == 2:
     arg_filename_with_prefix = '@' + sys.argv[1]
@@ -61,6 +65,10 @@ elif args.dataset == 'kittipred':
 
 def eval(model, dataloader_eval, post_process=False):
     eval_measures = torch.zeros(10).cuda()
+    
+    val_dir_path = "{}/{}".format(args.log_directory, os.path.basename(args.checkpoint_path))
+    os.makedirs(val_dir_path, exist_ok=True)
+    
     for _, eval_sample_batched in enumerate(tqdm(dataloader_eval.data)):
         with torch.no_grad():
             image = torch.autograd.Variable(eval_sample_batched['image'].cuda())
@@ -92,6 +100,13 @@ def eval(model, dataloader_eval, post_process=False):
         pred_depth[pred_depth > args.max_depth_eval] = args.max_depth_eval
         pred_depth[np.isinf(pred_depth)] = args.max_depth_eval
         pred_depth[np.isnan(pred_depth)] = args.min_depth_eval
+        
+        image_vis = cv2.imread(eval_sample_batched["name"][0])
+        pred_vis = depth_value_to_depth_image(pred_depth)
+        gt_vis = depth_value_to_depth_image(gt_depth)
+        disp_image_flat = np.hstack([image_vis, pred_vis, gt_vis])
+        disp_image_path = "{}/{}".format(val_dir_path, os.path.basename(eval_sample_batched["name"][0]))
+        cv2.imwrite(disp_image_path, disp_image_flat)
 
         valid_mask = np.logical_and(gt_depth > args.min_depth_eval, gt_depth < args.max_depth_eval)
         

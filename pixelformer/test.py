@@ -144,7 +144,7 @@ def test(params):
         np.savez_compressed(npz_path, data=pred_depths)
     command = 'zip {} {}'.format(zip_path, npz_path)
     os.system(command)
-    
+     
     elapsed_time = time.time() - start_time
     print('Elapesed time: %s' % str(elapsed_time))
     print('Done.')
