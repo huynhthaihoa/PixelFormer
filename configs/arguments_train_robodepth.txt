@@ -6,7 +6,7 @@
 --filenames_file data_splits/nyu_train.txt
 --data_path /hdd/hoa/nyu
 --num_epochs 20
---learning_rate 2e-5
+--learning_rate 4e-5
 --weight_decay 1e-2
 --adam_eps 1e-3
 --num_threads 1
