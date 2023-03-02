@@ -105,8 +105,12 @@ class silog_loss(nn.Module):
         super(silog_loss, self).__init__()
         self.variance_focus = variance_focus
 
-    def forward(self, depth_est, depth_gt, mask):
-        d = torch.log(depth_est[mask]) - torch.log(depth_gt[mask])
+    def forward(self, depth_est, depth_gt, mask= None):
+        if mask is not None:
+            mask = mask.to(torch.bool)
+            depth_gt = depth_gt[mask]
+            depth_est = depth_est[mask]
+        d = torch.log(depth_est) - torch.log(depth_gt)
         return torch.sqrt((d ** 2).mean() - self.variance_focus * (d.mean() ** 2)) * 10.0
 
 

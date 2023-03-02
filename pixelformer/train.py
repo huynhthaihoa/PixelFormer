@@ -97,7 +97,8 @@ if args.dataset == 'kitti' or args.dataset == 'nyu':
     from dataloaders.dataloader import NewDataLoader
 elif args.dataset == 'kittipred':
     from dataloaders.dataloader_kittipred import NewDataLoader
-
+elif args.dataset == 'diode':
+    from dataloaders.dataloader_diode import NewDataLoader
 
 def online_eval(model, dataloader_eval, gpu, ngpus, global_step, post_process=False):
     eval_measures = torch.zeros(10).cuda(device=gpu)
@@ -122,7 +123,7 @@ def online_eval(model, dataloader_eval, gpu, ngpus, global_step, post_process=Fa
                 pred_depth = post_process_depth(pred_depth, pred_depth_flipped)
 
             pred_depth = pred_depth.cpu().numpy().squeeze()
-            gt_depth = gt_depth.cpu().numpy().squeeze()
+            gt_depth = gt_depth.numpy().squeeze()
 
         if args.do_kb_crop:
             height, width = gt_depth.shape
@@ -161,7 +162,7 @@ def online_eval(model, dataloader_eval, gpu, ngpus, global_step, post_process=Fa
                     eval_mask[45:471, 41:601] = 1
 
             valid_mask = np.logical_and(valid_mask, eval_mask)
-
+        
         pred_depth = pred_depth[valid_mask]
         gt_depth = gt_depth[valid_mask]
         
@@ -310,13 +311,15 @@ def main_worker(gpu, ngpus_per_node, args):
             depth_gt = torch.autograd.Variable(sample_batched['depth'].cuda(args.gpu, non_blocking=True))
 
             depth_est = model(image)
-
-            if args.dataset == 'nyu':
+            
+            if args.dataset == 'diode':
+                mask = None
+            elif args.dataset == 'nyu':
                 mask = depth_gt > 0.1
             else:
                 mask = depth_gt > 1.0
 
-            loss = silog_criterion.forward(depth_est, depth_gt, mask.to(torch.bool))
+            loss = silog_criterion.forward(depth_est, depth_gt, mask)
             loss.backward()
             for param_group in optimizer.param_groups:
                 current_lr = (args.learning_rate - end_learning_rate) * (1 - global_step / num_total_steps) ** 0.9 + end_learning_rate

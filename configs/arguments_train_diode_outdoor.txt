@@ -1,0 +1,24 @@
+--mode train
+--model_name pixelformer_diode_outdoor
+--encoder large07
+--pretrain /hdd/team_2/model_zoo/SwinTransformer/swin_large_patch4_window7_224_22k.pth
+--dataset diode
+--filenames_file data_splits/diode_outdoor_train.txt
+--data_path /hdd/team_2/diode
+--num_epochs 20
+--learning_rate 4e-5
+--weight_decay 1e-2
+--adam_eps 1e-3
+--num_threads 1
+--input_height 768
+--input_width 1024 
+--max_depth 300
+--do_random_rotate
+--degree 1.0
+--log_directory /hdd/hoa/models/
+--gpu 0
+
+--log_freq 100
+--do_online_eval
+--eval_freq 2
+--filenames_file_eval data_splits/diode_outdoor_val.txt
